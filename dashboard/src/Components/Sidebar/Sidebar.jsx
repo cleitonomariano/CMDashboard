@@ -1,0 +1,40 @@
+import styles from "./Sidebar.module.scss";
+import Image from "next/image";
+import {
+  MdOutlineDashboardCustomize,
+  MdOutlineShoppingBag,
+  MdAttachMoney,
+  MdInsertChartOutlined,
+  MdOutlineSettings,
+} from "react-icons/md";
+import Link from "next/link";
+
+const links = [
+  { name: "painel", icon: <MdOutlineDashboardCustomize />, url: "/" },
+  { name: "produtos", icon: <MdOutlineShoppingBag />, url: "/produtos" },
+  { name: "vendas", icon: <MdAttachMoney />, url: "/vendas" },
+  { name: "relatório", icon: <MdInsertChartOutlined />, url: "/relatorio" },
+  { name: "configurações", icon: <MdOutlineSettings />, url: "/configuracoes" },
+];
+
+const Sidebar = () => {
+  const renderLinks = links.map((link, i) => (
+    <li key={i}>
+      <Link href={link.url}>
+        <div>{link.icon}</div>
+        <span>{link.name}</span>
+      </Link>
+    </li>
+  ));
+  return (
+    <section className={styles.sidebar}>
+      <div className={styles.image}>
+        <Image src="/logo.svg" alt="dashboard" width="46" height="43" />
+      </div>
+      <nav className={styles.navigation}>
+        <ul>{renderLinks}</ul>
+      </nav>
+    </section>
+  );
+};
+export default Sidebar;
