@@ -8,6 +8,7 @@ import {
   MdOutlineSettings,
 } from "react-icons/md";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const links = [
   { name: "painel", icon: <MdOutlineDashboardCustomize />, url: "/" },
@@ -18,9 +19,13 @@ const links = [
 ];
 
 const Sidebar = () => {
+
+const router = useRouter()
+let { route } = router
+
   const renderLinks = links.map((link, i) => (
     <li key={i}>
-      <Link href={link.url}>
+      <Link href={link.url} className={route === link.url ? styles.active : ''}>
         <div>{link.icon}</div>
         <span>{link.name}</span>
       </Link>
