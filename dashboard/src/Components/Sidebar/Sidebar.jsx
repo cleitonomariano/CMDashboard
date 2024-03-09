@@ -20,9 +20,8 @@ const links = [
 
 const Sidebar = () => {
 
-const router = useRouter()
-let { route } = router
-
+  const router = useRouter()
+  let { route } = router
   const renderLinks = links.map((link, i) => (
     <li key={i}>
       <Link href={link.url} className={route === link.url ? styles.active : ''}>
