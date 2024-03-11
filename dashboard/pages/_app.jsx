@@ -1,5 +1,10 @@
-import '../styles/globals.scss';
+import Layout from "@/Layout/Layout";
+import "../styles/globals.scss";
 function myApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+  return (
+    <Layout>
+      <Component {...pageProps} />
+    </Layout>
+  );
 }
-export default myApp
+export default myApp;

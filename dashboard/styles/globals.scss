@@ -46,6 +46,7 @@ h4,
 .btn {
   text-decoration: none;
   border: none;
+  border-radius: 0.5rem;
   outline: none;
   display: inline-block;
   padding: 1rem 4rem;
@@ -60,6 +61,7 @@ h4,
     &:hover:not(:disabled) {
       cursor: pointer;
       background-color: lighten($primary, 5);
+      transition: 0.75s ease;
     }
   }
 

@@ -1,5 +1,12 @@
 import styles from "./Sidebar.module.scss";
 import Image from "next/image";
+import { IoLogoBuffer } from "react-icons/io";
+import {
+  GiReceiveMoney,
+  GiShop,
+  GiChart,
+  GiSettingsKnobs,
+} from "react-icons/gi";
 import {
   MdOutlineDashboardCustomize,
   MdOutlineShoppingBag,
@@ -12,20 +19,22 @@ import { useRouter } from "next/router";
 
 const links = [
   { name: "painel", icon: <MdOutlineDashboardCustomize />, url: "/" },
-  { name: "produtos", icon: <MdOutlineShoppingBag />, url: "/produtos" },
-  { name: "vendas", icon: <MdAttachMoney />, url: "/vendas" },
-  { name: "relatório", icon: <MdInsertChartOutlined />, url: "/relatorio" },
-  { name: "configurações", icon: <MdOutlineSettings />, url: "/configuracoes" },
+  { name: "produtos", icon: <GiShop />, url: "/produtos" },
+  { name: "vendas", icon: <GiReceiveMoney />, url: "/vendas" },
+  { name: "relatório", icon: <GiChart />, url: "/relatorio" },
+  { name: "configurações", icon: <GiSettingsKnobs />, url: "/configuracoes" },
 ];
 
 const Sidebar = () => {
+  const router = useRouter();
+  let { route } = router;
 
-const router = useRouter()
-let { route } = router
+  if (route === "/nova-venda") route = "/";
+  if (route === "/produtos/adicionar") route = "/produtos";
 
   const renderLinks = links.map((link, i) => (
     <li key={i}>
-      <Link href={link.url} className={route === link.url ? styles.active : ''}>
+      <Link href={link.url} className={route === link.url ? styles.active : ""}>
         <div>{link.icon}</div>
         <span>{link.name}</span>
       </Link>
@@ -34,7 +43,8 @@ let { route } = router
   return (
     <section className={styles.sidebar}>
       <div className={styles.image}>
-        <Image src="/logo.svg" alt="dashboard" width="46" height="43" />
+        <IoLogoBuffer />
+        {/* <Image src={IoLogoBuffer} alt="dashboard" width="46" height="43" /> */}
       </div>
       <nav className={styles.navigation}>
         <ul>{renderLinks}</ul>
