@@ -10,7 +10,7 @@ import styles from "styles/Dashboard.module.scss";
 export default function Home() {
   return (
     <section className={styles.dashboard}>
-      <Heading title="DashSale " subtitle="Confira seu Dashboard" />
+      <Heading title="Welcome " subtitle="Confira seus relatórios" />
       <Link href="/nova-venda" className="btn btn-primary">
         Nova Venda
       </Link>
