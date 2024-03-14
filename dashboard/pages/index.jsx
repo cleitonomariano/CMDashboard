@@ -5,9 +5,14 @@ import TopSales from "@/Components/TopSales/TopSales";
 import Heading from "@/UI/Heading/Heading.jsx";
 import Link from "next/link";
 import styles from "styles/Dashboard.module.scss";
+import client from "src/sanity";
+import store from "src/store";
 
 
-export default function Home() {
+export default function Home({ orders, products, config }) {
+
+  console.log(store);
+
   return (
     <section className={styles.dashboard}>
       <Heading title="Welcome " subtitle="Confira seus relatórios" />
@@ -27,3 +32,17 @@ export default function Home() {
     </section>
   );
 }
+
+export const getStaticProps = async () => {
+  const orders = await client.fetch('*[_type == "orders"]');
+  const products = await client.fetch('*[_type == "products"]');
+  const config = await client.fetch('*[_type == "config"]');
+
+  return {
+    props: {
+      orders,
+      products,
+      config,
+    },
+  };
+};

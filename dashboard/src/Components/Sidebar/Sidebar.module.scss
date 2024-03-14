@@ -71,7 +71,7 @@
           &.active {
             background-color: $lightBlack;
             color: $primary;
-            transition: 0.75s;
+            transition: all 0.75s ease;
           }
         }
       }

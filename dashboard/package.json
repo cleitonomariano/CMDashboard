@@ -12,6 +12,7 @@
     "@next/font": "13.1.1",
     "@reduxjs/toolkit": "^1.9.1",
     "@sanity/image-url": "^1.0.2",
+    "@sanity/vision": "^3.32.0",
     "@syncfusion/ej2-react-charts": "^20.4.42",
     "@syncfusion/ej2-react-circulargauge": "^20.4.42",
     "@syncfusion/ej2-react-dropdowns": "^20.4.42",
@@ -24,7 +25,9 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.7.1",
-    "react-redux": "^8.0.5"
+    "react-redux": "^8.0.5",
+    "sanity": "^3.32.0",
+    "styled-components": "^6.1.8"
   },
   "devDependencies": {
     "@types/node": "20.11.24",
