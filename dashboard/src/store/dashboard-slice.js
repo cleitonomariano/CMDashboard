@@ -52,13 +52,13 @@ const dashboardSlice = createSlice({
       state.products.list = topProducts;
     },
 
-    createOrdersWithProducts: (state) => {
+    createOrdersWithProduct: (state) => {
       const { list: products } = state.products;
       const { list: orders } = state.orders;
 
       const ordersWithProducts =
         orders?.map((order) => {
-          const products = findProduct(products, order);
+          const product = findProduct(products, order);
           return {
             ...order,
             date: new Date(order.date),
@@ -69,7 +69,7 @@ const dashboardSlice = createSlice({
 
       state.orders.merged = ordersWithProducts;
     },
-    populateSale: (state) => {
+    populateSales: (state) => {
       const { today: todayOrders } = state.orders;
       const { list: products } = state.products;
 
@@ -85,8 +85,8 @@ const dashboardSlice = createSlice({
 
       const totalsales =
         products
-          ?.map((product) => product.order * product.price)
-          .reduce((acc, curr) => acc + curr, o) || 0;
+          ?.map((product) => product.orders * product.price)
+          .reduce((acc, curr) => acc + curr, 0) || 0;
 
       state.sales.today = todaySales;
       state.sales.total = totalsales;
@@ -95,10 +95,10 @@ const dashboardSlice = createSlice({
 });
 
 export const {
-  createOrdersWithProducts,
+  createOrdersWithProduct,
   populateOrders,
   populateProducts,
-  populateSale,
+  populateSales,
 } = dashboardSlice.actions;
 
 export default dashboardSlice.reducer;

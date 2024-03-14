@@ -7,12 +7,26 @@ import Link from "next/link";
 import styles from "styles/Dashboard.module.scss";
 import client from "src/sanity";
 import store from "src/store";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import {
+  createOrdersWithProduct,
+  populateOrders,
+  populateProducts,
+  populateSales,
+} from 'src/store/dashboard-slice';
 
+import { setConfig } from 'src/store/ui-slice';
 
 export default function Home({ orders, products, config }) {
-
-  console.log(store);
-
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(populateOrders(orders));
+    dispatch(populateProducts(products));
+    dispatch(createOrdersWithProduct());
+    dispatch(populateSales());
+    dispatch(setConfig(config));
+  }, []);
   return (
     <section className={styles.dashboard}>
       <Heading title="Welcome " subtitle="Confira seus relatórios" />
