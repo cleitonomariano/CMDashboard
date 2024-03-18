@@ -1,12 +1,10 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   orders: {
-    orders: {
-      list: null,
-      today: null,
-      merged: null,
-    },
+    list: null,
+    today: null,
+    merged: null,
   },
   products: {
     list: null,
@@ -20,23 +18,24 @@ const initialState = {
 
 const findProduct = (products, order) => {
   const product = products?.find(
-    (product) => (product.id === order.product_id) === order.product._ref
+    (product) => product._id === order.product._ref
   ) || {
-    name: "Carregando...",
+    name: 'carregando...',
     price: 0,
   };
+
   return product;
 };
 
 const dashboardSlice = createSlice({
-  name: "dashboard",
+  name: 'dashboard',
   initialState,
   reducers: {
     populateOrders: (state, { payload }) => {
       const today = new Date().toLocaleDateString();
       const todayOrders =
         payload?.filter(
-          (order) => new Date(order.date).toLocaleDateString === today
+          (order) => new Date(order.date).toLocaleDateString() === today
         ) || [];
 
       state.orders.list = payload;
@@ -49,56 +48,55 @@ const dashboardSlice = createSlice({
         products?.sort((a, b) => b.orders - a.orders).slice(0, 3) || [];
 
       state.products.list = payload;
-      state.products.list = topProducts;
+      state.products.top = topProducts;
     },
 
-    createOrdersWithProducts: (state) => {
+    createOrdersWithProduct: (state) => {
       const { list: products } = state.products;
       const { list: orders } = state.orders;
 
       const ordersWithProducts =
         orders?.map((order) => {
-          const products = findProduct(products, order);
+          const product = findProduct(products, order);
+
           return {
             ...order,
             date: new Date(order.date),
             product: product.name,
-            amount: product.price * order.amout,
+            amount: product.price * order.quantity,
           };
         }) || [];
 
       state.orders.merged = ordersWithProducts;
     },
-    populateSale: (state) => {
+
+    populateSales: (state) => {
       const { today: todayOrders } = state.orders;
       const { list: products } = state.products;
 
       // get today orders
       const todaySales =
         todayOrders
-          ?.map(
-            (order) => order.findProduct(products, order).price * order.quantity
-          )
+          ?.map((order) => findProduct(products, order).price * order.quantity)
           .reduce((acc, curr) => acc + curr, 0) || 0;
 
       // get total sales
-
-      const totalsales =
+      const totalSales =
         products
-          ?.map((product) => product.order * product.price)
-          .reduce((acc, curr) => acc + curr, o) || 0;
+          ?.map((product) => product.orders * product.price)
+          .reduce((acc, curr) => acc + curr, 0) || 0;
 
       state.sales.today = todaySales;
-      state.sales.total = totalsales;
+      state.sales.total = totalSales;
     },
   },
 });
 
 export const {
-  createOrdersWithProducts,
   populateOrders,
   populateProducts,
-  populateSale,
+  createOrdersWithProduct,
+  populateSales,
 } = dashboardSlice.actions;
 
 export default dashboardSlice.reducer;

@@ -1,17 +1,37 @@
-import Cards from "@/Components/Card/Cards";
-import SalesGoal from "@/Components/SalesGoal/SalesGoal";
-import SalesHistory from "@/Components/SalesHistory/SalesHistory";
-import TopSales from "@/Components/TopSales/TopSales";
-import Heading from "@/UI/Heading/Heading.jsx";
-import Link from "next/link";
-import styles from "styles/Dashboard.module.scss";
-import client from "src/sanity";
-import store from "src/store";
+import Link from 'next/link';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import Cards from 'src/Components/Card/Cards';
+import SalesGoal from 'src/Components/SalesGoal/SalesGoal';
+import SalesHistory from 'src/Components/SalesHistory/SalesHistory';
+import TopSales from 'src/Components/TopSales/TopSales';
+import client from 'src/sanity';
+import {
+  createOrdersWithProduct,
+  populateOrders,
+  populateProducts,
+  populateSales,
+} from 'src/store/dashboard-slice';
+import { setConfig } from 'src/store/ui-slice';
+import Heading from 'src/UI/Heading/Heading';
+import styles from 'styles/Dashboard.module.scss';
 
 
 export default function Home({ orders, products, config }) {
+  const { company } = useSelector((state) => state.ui)
+  const dispatch = useDispatch();
 
-  console.log(store);
+  
+  console.log(config);
+
+
+  useEffect(() => {
+    dispatch(populateOrders(orders));
+    dispatch(populateProducts(products));
+    dispatch(createOrdersWithProduct());
+    dispatch(populateSales());
+    dispatch(setConfig(config));
+  }, []);
 
   return (
     <section className={styles.dashboard}>
@@ -36,7 +56,8 @@ export default function Home({ orders, products, config }) {
 export const getStaticProps = async () => {
   const orders = await client.fetch('*[_type == "orders"]');
   const products = await client.fetch('*[_type == "products"]');
-  const config = await client.fetch('*[_type == "config"]');
+  const config = await client.fetch('*[_type == "config"][0]');
+
 
   return {
     props: {
