@@ -3,12 +3,29 @@ import {
   ColumnsDirective,
   Filter,
   GridComponent,
-  Group,
 } from "@syncfusion/ej2-react-grids";
 import { Inject, Page, Sort } from "@syncfusion/ej2-react-grids";
-import { useSelector } from "react-redux";
+import { L10n } from "@syncfusion/ej2-base";
+
+L10n.load({
+  "pt-BR": {
+    grid: {
+      EmptyRecord: "Nenhum registro foi encontrado",
+    },
+    pager: {
+      currentPageInfo: "{0} de {1} páginas",
+      totalItemsInfo: "({0} itens)",
+    },
+  },
+});
 
 const GridChart = ({ columns, data }) => {
+  const customizeCell = (args) => {
+    if (args.column.field === "image") {
+      args.cell.querySelector("img").setAttribute("src", args.data.image);
+    }
+  };
+
   const renderColumns = columns.map((column, i) => (
     <ColumnDirective key={i} {...column}></ColumnDirective>
   ));
@@ -22,9 +39,11 @@ const GridChart = ({ columns, data }) => {
         filterSettings={{ type: "Excel" }}
         allowSorting={true}
         allowFiltering={true}
+        locale="pt-BR"
+        queryCellInfo={customizeCell}
       >
         <ColumnsDirective>{renderColumns}</ColumnsDirective>
-        <Inject services={[Page, Sort, Filter, Group]} />
+        <Inject services={[Page, Sort, Filter]} />
       </GridComponent>
     </div>
   );
