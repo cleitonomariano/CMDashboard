@@ -21,10 +21,6 @@ export default function Home({ orders, products, config }) {
   const { company } = useSelector((state) => state.ui)
   const dispatch = useDispatch();
 
-  
-  console.log(config);
-
-
   useEffect(() => {
     dispatch(populateOrders(orders));
     dispatch(populateProducts(products));
